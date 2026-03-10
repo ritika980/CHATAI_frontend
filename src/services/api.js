@@ -1,5 +1,5 @@
 // Shared API service for communicating with the backend
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 export const sendChatMessage = async (message) => {
   const response = await fetch(`${BASE_URL}/chat`, {

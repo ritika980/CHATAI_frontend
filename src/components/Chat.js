@@ -70,7 +70,7 @@ const Chat = ({ user, onGuestLogout }) => {
       setChats(prev => prev.map(c => c.id === activeChatId ? { ...c, title } : c));
     }
 
-    const baseUrl = window.location.origin.includes('localhost') ? 'http://localhost:5000' : '/api';
+    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
     try {
       const response = await fetch(`${baseUrl}/chat`, {
         method: 'POST',

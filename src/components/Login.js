@@ -22,7 +22,7 @@ const Login = ({ onGuestLogin }) => {
   const [focusedField, setFocusedField] = useState('');
 
   const syncUser = async (firebaseUser) => {
-    const baseUrl = window.location.origin.includes('localhost') ? 'http://localhost:5000' : '/api';
+    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
     try {
       await fetch(`${baseUrl}/auth/sync`, {
         method: 'POST',
