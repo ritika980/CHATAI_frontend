@@ -55,6 +55,7 @@ const Chat = ({ user, onGuestLogout }) => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
 
@@ -71,18 +72,26 @@ const Chat = ({ user, onGuestLogout }) => {
     }
 
     const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s Timeout
+
     try {
+      console.log('[Chat] Sending search request to:', `${baseUrl}/chat`);
       const response = await fetch(`${baseUrl}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: trimmed }),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
+        throw new Error(`Server status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('[Chat] Reply received:', data.reply?.substring(0, 20) + '...');
       const botMsg = { id: Date.now() + 1, text: data.reply, role: 'bot' };
       const updatedMessages = [...newMessages, botMsg];
       setMessages(updatedMessages);
