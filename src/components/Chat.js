@@ -259,6 +259,7 @@ const Chat = ({ user, onGuestLogout }) => {
                       <span style={{ ...s.dot, animationDelay: '0ms' }} />
                       <span style={{ ...s.dot, animationDelay: '180ms' }} />
                       <span style={{ ...s.dot, animationDelay: '360ms' }} />
+                      <span style={s.typingText}>Thinking...</span>
                     </div>
                   </div>
                 </div>
@@ -685,6 +686,12 @@ const s = {
     background: 'rgba(255,255,255,0.5)',
     display: 'inline-block',
     animation: 'bounce 1.2s infinite ease-in-out',
+  },
+  typingText: {
+    marginLeft: '8px',
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.4)',
+    fontWeight: '500',
   },
   inputArea: {
     padding: '16px 20px 20px',
