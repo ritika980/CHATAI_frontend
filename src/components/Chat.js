@@ -89,11 +89,17 @@ const Chat = ({ user, onGuestLogout }) => {
       setChats(prev => prev.map(c => c.id === activeChatId ? { ...c, messages: updatedMessages } : c));
     } catch (err) {
       console.error('Send message error:', err);
+      let errorText = `[Error] ${err.message}`;
+      
+      if (err.message.includes('Failed to fetch')) {
+        errorText = '[Network Error] Gateway cannot reach the backend. Check your Internet or ensure Render server is active.';
+      } else if (err.message.includes('404') || err.message.includes('403')) {
+        errorText = '[Gemini Error] Your API key is invalid or has been disabled by Google as "leaked". Please provide a FRESH key in .env to unlock AI.';
+      }
+
       const errMsg = {
         id: Date.now() + 1,
-        text: err.message.includes('Failed to fetch')
-          ? '[Error] Cannot connect to backend. Make sure the backend server is running on port 5000.'
-          : `[Error] ${err.message}`,
+        text: errorText,
         role: 'error',
       };
       setMessages(prev => [...prev, errMsg]);

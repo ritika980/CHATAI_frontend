@@ -11,10 +11,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check guest session immediately
-    const guestSession = sessionStorage.getItem('guestUser');
-    if (guestSession) setIsGuest(true);
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
